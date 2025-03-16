@@ -1,6 +1,0 @@
-/vendor
-.env
-/node_modules
-/storage
-.idea
-.vscode
