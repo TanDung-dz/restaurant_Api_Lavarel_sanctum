@@ -16,6 +16,7 @@ class ThanhToan extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        // Các trường hiện có
         'ID_ThanhToan',
         'ID_ThongTinDatBan',
         'SoLuong',
@@ -24,13 +25,22 @@ class ThanhToan extends Model
         'NgayThanhToan',
         'MaGiaoDich',
         'NgayTao',
-        'NgayCapNhap'
+        'NgayCapNhap',
+        // Thêm các trường MoMo
+        'MoMo_RequestId',
+        'MoMo_OrderId',
+        'MoMo_PaymentUrl',
+        'MoMo_TransId',
+        'MoMo_ResultCode',
+        'MoMo_Message',
+        'MoMo_ExtraData'
     ];
 
     protected $casts = [
         'NgayThanhToan' => 'datetime',
         'NgayTao' => 'datetime',
         'NgayCapNhap' => 'datetime',
+        'MoMo_ExtraData' => 'array',
     ];
 
     /**

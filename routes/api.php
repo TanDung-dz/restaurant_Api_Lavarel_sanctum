@@ -13,6 +13,7 @@ use App\Http\Controllers\API\ThanhToanController;
 use App\Http\Controllers\API\ThongBaoController;
 use App\Http\Controllers\API\ThongTinDatBanController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\MoMoController;
 use Illuminate\Support\Facades\Route;
 
 // Routes không cần xác thực
@@ -105,6 +106,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes xác nhận đặt bàn và thanh toán
     Route::post('/dat-ban/{id}/confirm', [ThongTinDatBanController::class, 'confirmBooking']);
     Route::post('/thanh-toan/{id}/send-confirmation', [ThanhToanController::class, 'sendConfirmation']);
+    
+        // Routes cho MoMo
+    Route::post('/thanh-toan/momo', [MoMoController::class, 'createPayment']);
+    Route::get('/thanh-toan/momo/status/{id}', [MoMoController::class, 'checkPaymentStatus']);
+    Route::post('/thanh-toan/momo', [ThanhToanController::class, 'createMoMoPayment']);
+  
 });
 
 // Routes cần xác thực và quyền admin
@@ -120,3 +127,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 Route::middleware(['auth:sanctum', 'admin'])->post('/thong-bao/create', [ThongBaoController::class, 'createNotification']);
 // Thêm vào routes/api.php nếu chưa có
 Route::middleware(['auth:sanctum'])->post('/thong-bao/create', [ThongBaoController::class, 'createNotification']);
+
+
+// Route xử lý IPN từ MoMo (không cần xác thực)
+Route::post('/momo/ipn', [MoMoController::class, 'handleIpn'])->withoutMiddleware(['auth:sanctum']);
